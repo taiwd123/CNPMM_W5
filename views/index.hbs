@@ -1,42 +1,54 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {{!-- <link rel="stylesheet" href="../public/stylesheets/style.css"/> --}}
-    <title>Document</title>
-</head>
-<body>
-    <div>
-        <form method="POST" action="/blog/add">
-            <div><span>Title</span><input type="text" name="title"/></div>
-            <div><span>Content</span><textarea name="content" style="max-width: 400px; min-height: 200px; min-width: 400px" rows="4" cols="50"></textarea></div>
-            <input style="width: 100px; height: 40px" type="submit" value="Upload"/>
-        </form>
-        {{#each blogs}}
-        <div style="display: flex; align-items: center">
-            <h1 class="red">{{title}}</h1>
-            <form action="/blog/delete/{{id}}" method="DELETE">
-                <input type="submit" value="Delete">
+
+<div class="container">
+    <div style="margin-top: 150px;">
+        {{!-- <button style="display: flex; align-items = start" id="btn_add" value="true" onclick="addBlog()">Add Blog</button> --}}
+        <div class="add_blog">
+            <form method="POST" action="/blog/add">
+                <div><p>Title<p><input type="text" name="title"/></div>
+                <div><p>Content</p><textarea name="content" style="max-width: 400px; min-height: 200px; min-width: 400px" rows="4" cols="50"></textarea></div>
+                <input style="width: 100px; height: 40px" type="submit" value="Upload"/>
             </form>
         </div>
-        <p>{{content}}</p>
-        <div>
-            <hr style="width: 400px"/>
-            <ul style="list-style-type:disc">
-                Comments:
-            {{#each comments}}
-            <li><p></p>{{content}}</p></li>
-            {{/each}}
-            </ul>
-            <form action="/comment/add" method="POST">
-                <input type="hidden" name="idBlog" value={{id}}>
-                Comment: <input type="text" name="contentComment">
-                <input type="submit" value="Add comment">
-            </form>
+        {{#each blogs}}
+        <div class="content-blog">
+            <div style="display: flex; align-items: center">
+                <h1 class="red">{{title}}</h1>
+                <form action="/blog/delete/{{id}}" method="DELETE">
+                    <input type="submit" value="Delete">
+                </form>
+            </div>
+            <div class="content">
+                <p>{{content}}</p> 
+            </div>
+            <div class="comment">
+                <hr style="width: 400px"/>
+                <h3>Comments:</h3>
+                <ul style="list-style-type:disc">
+                {{#each comments}}
+                <li><p></p>{{content}}</p></li>
+                {{/each}}
+                </ul>
+                <form action="/comment/add" method="POST">
+                    <input type="hidden" name="idBlog" value={{id}}>
+                    Comment: <input type="text" name="contentComment">
+                    <input type="submit" value="Add comment">
+                </form>
+            </div>
         </div>
         {{/each}}
     </div>
-</body>
-</html>
+</div>
+<script>
+    const element = document.getElementById('btn_add')
+    const elementAdd = document.querySelector('.add_blog')
+    function addBlog () {
+        var btn = element.value
+        if(btn === 'true') {
+            elementAdd.style.display = 'none'
+            element.value = 'false'
+        } else {
+            elementAdd.style.display = 'block'
+            element.value = 'true'
+        }
+    }
+</script>

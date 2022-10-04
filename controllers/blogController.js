@@ -23,7 +23,7 @@ const deleteBlog = (req, res) => {
     const id = req.params.id
     console.log("delete blog ", id);
     const index = initialBlog.findIndex(data => data.id === Number(id))
-    initialBlog.pop(index);
+    initialBlog.splice(index, 1)
     res.render('index', {blogs: initialBlog})
 }
 module.exports = {
